@@ -1,0 +1,35 @@
+name: BuildLightsOut
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name : Path logs
+        run : ls
+
+      - name: Install dependencies
+        working-directory: ./LightsOut.Api
+        run: dotnet restore
+
+      - name: Build
+        working-directory: ./LightsOut.Api
+        run: dotnet build --configuration Release --no-restore
+
