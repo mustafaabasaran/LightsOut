@@ -1,9 +1,14 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using LightsOut.Application.DTOs;
+using LightsOut.Application.Exceptions;
 using LightsOut.Application.Features.Requests;
 using LightsOut.Application.Persistence;
+using LightsOut.Application.Resources;
+using LightsOut.Domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -22,9 +27,23 @@ namespace LightsOut.Application.Features.Queries
             _logger = logger;
         }
 
-        public Task<BoardSettingDto> Handle(GetBoardSettingsRequest request, CancellationToken cancellationToken)
+        public async Task<BoardSettingDto> Handle(GetBoardSettingsRequest request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var boardSettingsResponseList = await _repository.GetAll();
+            
+            ValidateBoardSettingsResponse(boardSettingsResponseList);
+            
+            var response = _mapper.Map<BoardSettingDto>(boardSettingsResponseList[0]);
+            return response;
+        }
+
+        public void ValidateBoardSettingsResponse(IReadOnlyList<BoardSetting> boardSettingsList)
+        {
+            if (!boardSettingsList.Any())
+                throw new BoardException(ExceptionMessages.EmptyBoardSettingError);
+
+            if (boardSettingsList.Count != 1)
+                throw new BoardException(ExceptionMessages.MoreThanOneBoardSettingError);
         }
     }
 }
