@@ -1,0 +1,35 @@
+name: BuildLightsOutWindowsForm
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name : Path logs
+        run : ls
+
+      - name: Install dependencies
+        working-directory: ./LightsOut.WindowsForm
+        run: dotnet restore
+
+      - name: Build
+        working-directory: ./LightsOut.WindowsForm
+        run: dotnet build --configuration Release --no-restore
+
