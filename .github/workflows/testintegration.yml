@@ -11,7 +11,7 @@ on:
 jobs:
   test:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -24,4 +24,5 @@ jobs:
         working-directory: ./LightsOut.Api.IntegrationTests
         run: dotnet restore
       - name: Unit Tests
+        working-directory: ./LightsOut.Api.IntegrationTests
         run: dotnet test --no-restore --verbosity normal

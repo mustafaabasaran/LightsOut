@@ -24,4 +24,5 @@ jobs:
         working-directory: ./LightsOut.Api.UnitTests
         run: dotnet restore
       - name: Unit Tests
+        working-directory: ./LightsOut.Api.UnitTests
         run: dotnet test --no-restore --verbosity normal
