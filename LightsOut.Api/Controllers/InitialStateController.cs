@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using LightsOut.Api.Model;
 using LightsOut.Application.DTOs;
@@ -21,6 +22,8 @@ namespace LightsOut.Api.Controllers
 
 
         [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<List<InitialStateDto>>> GetInitialStateList()
         {
             var request = new GetInitialStateListRequest();

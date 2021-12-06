@@ -1,3 +1,4 @@
+using System.Net;
 using System.Threading.Tasks;
 using LightsOut.Api.Model;
 using LightsOut.Application.DTOs;
@@ -19,6 +20,8 @@ namespace LightsOut.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<BoardSettingDto>> GetSettings()
         {
             var request = new GetBoardSettingsRequest();
