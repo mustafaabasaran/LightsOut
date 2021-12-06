@@ -1,4 +1,4 @@
-name: TestLightsOutUnitTests
+name: TestLightsIntegrationTests
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
           dotnet-version: 5.0.x
 
       - name: Install dependencies to unit tests
-        working-directory: ./LightsOut.Api.UnitTests
+        working-directory: ./LightsOut.Api.IntegrationTests
         run: dotnet restore
       - name: Unit Tests
         run: dotnet test --no-restore --verbosity normal

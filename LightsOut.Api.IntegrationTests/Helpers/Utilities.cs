@@ -1,12 +1,8 @@
-﻿using LightsOut.Domain.Models;
+﻿using System.Collections.Generic;
+using LightsOut.Domain.Models;
 using LightsOut.Persistence.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LightsOut.Api.IntegrationTests
+namespace LightsOut.Api.IntegrationTests.Helpers
 {
     public  static class Utilities
     {
@@ -32,11 +28,11 @@ namespace LightsOut.Api.IntegrationTests
         {
             return new List<InitialState>()
             {
-                new InitialState(){ Row = 0, Column = 0, State = 1},
-                new InitialState(){ Row = 0, Column = 2, State = 1},
-                new InitialState(){ Row = 1, Column = 4, State = 1},
-                new InitialState(){ Row = 2, Column = 4, State = 1},
-                new InitialState(){ Row = 3, Column = 1, State = 1},
+                new InitialState(){ Id = 0, Row = 0, Column = 0, State = 1},
+                new InitialState(){ Id = 1, Row = 0, Column = 2, State = 1},
+                new InitialState(){ Id = 2, Row = 1, Column = 4, State = 1},
+                new InitialState(){ Id = 3, Row = 2, Column = 4, State = 1},
+                new InitialState(){ Id = 4, Row = 3, Column = 1, State = 1},
             };
         }
 
