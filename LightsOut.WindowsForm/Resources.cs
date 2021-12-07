@@ -18,4 +18,10 @@ namespace LightsOut.WindowsForm
         public const string WrongInitialState = "One or more inital state value is higher than board size. Please fix initial states";
         public const string WrongInitialStateColor = "Wrong colors. Colors definition must be HEX and starts with \"#\".";
     }
+
+    public enum State
+    {
+        IsOff = 0,
+        IsOn = 1
+    }
 }

@@ -115,7 +115,7 @@ namespace LightsOut.WindowsForm
                 return;
             }
 
-            if (_initialStates == null || _initialStates.Count == 0)
+            if (_initialStates == null || _initialStates.Count(x=> x.State == (int)State.IsOn) == 0)
             {
                 ShowErrorBox(Resources.InitialStateListIsNull);
                 return;
@@ -161,7 +161,10 @@ namespace LightsOut.WindowsForm
 
             foreach (var item in _initialStates)
             {
-                InvertTheButton(lights[item.Row, item.Column], item.Row, item.Column);
+                if (item.State == (int)State.IsOn)
+                {
+                    InvertTheButton(lights[item.Row, item.Column], item.Row, item.Column);
+                }
             }
 
             if (CheckStatus() == true)
