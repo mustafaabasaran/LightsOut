@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 namespace LightsOut.Api
 {
@@ -26,6 +27,11 @@ namespace LightsOut.Api
         {
             services.AddLogging();
             services.AddControllers();
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration["RedisConnectionString"];
+                options.InstanceName = "master";
+            });
             services.ConfigureApplicationServices();
             services.ConfigurePersistenceServices(Configuration);
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "LightsOut.Api", Version = "v1" }); });

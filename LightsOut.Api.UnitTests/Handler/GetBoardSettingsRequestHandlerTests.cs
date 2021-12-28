@@ -8,6 +8,7 @@ using LightsOut.Application.Features.Requests;
 using LightsOut.Application.Persistence;
 using LightsOut.Application.Profiles;
 using LightsOut.Application.Resources;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
@@ -20,6 +21,7 @@ namespace LightsOut.Api.UnitTests.Handler
         private readonly IMapper _mapper;
         private readonly Mock<IBoardSettingRepository> _mockRepo;
         private ILogger<GetBoardSettingsRequestHandler> _logger;
+        private readonly IDistributedCache _distributedCache;
 
         public GetBoardSettingsRequestHandlerTests()
         {
@@ -30,12 +32,13 @@ namespace LightsOut.Api.UnitTests.Handler
 
             _mapper = mapperConfig.CreateMapper();
             _logger = new Mock<ILogger<GetBoardSettingsRequestHandler>>().Object;
+            _distributedCache = new Mock<IDistributedCache>().Object;
         }
         [Fact]
         public async Task Should_Work()
         {
             var _mockRepo = MockBoardSettingsRepository.GetLeaveRepositoryWithOneRecord();
-            var handler = new GetBoardSettingsRequestHandler(_mockRepo.Object, _mapper, _logger);
+            var handler = new GetBoardSettingsRequestHandler(_mockRepo.Object, _mapper, _logger,_distributedCache);
             var request = new GetBoardSettingsRequest();
             
             var response = await handler.Handle(request, CancellationToken.None);
@@ -48,7 +51,7 @@ namespace LightsOut.Api.UnitTests.Handler
         public async Task Should_Throw_Empty_Settings_Exception()
         {
             var _mockRepo = MockBoardSettingsRepository.GetLeaveRepositoryWithEmptyList();
-            var handler = new GetBoardSettingsRequestHandler(_mockRepo.Object, _mapper, _logger);
+            var handler = new GetBoardSettingsRequestHandler(_mockRepo.Object, _mapper, _logger,_distributedCache);
             var request = new GetBoardSettingsRequest();
             
             var ex = await Should.ThrowAsync<BoardException>(async () =>
@@ -65,7 +68,7 @@ namespace LightsOut.Api.UnitTests.Handler
         public async Task Should_Throw_MoreThanOneRecord_Settings_Exception()
         {
             var _mockRepo = MockBoardSettingsRepository.GetLeaveRepositoryWithMoreThanOneRecord();
-            var handler = new GetBoardSettingsRequestHandler(_mockRepo.Object, _mapper, _logger);
+            var handler = new GetBoardSettingsRequestHandler(_mockRepo.Object, _mapper, _logger,_distributedCache);
             var request = new GetBoardSettingsRequest();
             
             var ex = await Should.ThrowAsync<BoardException>(async () =>
